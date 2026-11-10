@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgDevOps" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#07192F" />
+      <stop offset="50%" stop-color="#0B1E38" />
+      <stop offset="100%" stop-color="#022C22" />
+    </linearGradient>
+    <linearGradient id="dockerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#0EA5E9" />
+    </linearGradient>
+    <linearGradient id="k8sGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#326CE5" />
+      <stop offset="100%" stop-color="#60A5FA" />
+    </linearGradient>
+    <filter id="glowDevOps" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <rect width="800" height="450" fill="url(#bgDevOps)" />
+
+  <!-- Cloud Glows -->
+  <circle cx="260" cy="180" r="170" fill="#0284C7" opacity="0.15" filter="url(#glowDevOps)" />
+  <circle cx="560" cy="220" r="160" fill="#10B981" opacity="0.14" filter="url(#glowDevOps)" />
+
+  <!-- Isometric Infrastructure / Containers Graphic -->
+  <g transform="translate(230, 90)">
+    <!-- Central Cloud Node -->
+    <path d="M 120 70 C 120 50, 140 35, 170 35 C 190 35, 205 45, 215 55 C 230 45, 255 45, 270 60 C 285 75, 280 100, 265 110 C 265 115, 250 130, 220 130 L 140 130 C 110 130, 100 105, 120 70 Z" fill="#1E293B" stroke="#38BDF8" stroke-width="2.5" filter="url(#glowDevOps)"/>
+    
+    <!-- Docker Containers Floating -->
+    <!-- Container 1 -->
+    <g transform="translate(60, 120)">
+      <polygon points="40,0 80,20 40,40 0,20" fill="#38BDF8" />
+      <polygon points="0,20 40,40 40,80 0,60" fill="#0284C7" />
+      <polygon points="80,20 40,40 40,80 80,60" fill="#0369A1" />
+    </g>
+
+    <!-- Container 2 -->
+    <g transform="translate(150, 140)">
+      <polygon points="40,0 80,20 40,40 0,20" fill="#34D399" />
+      <polygon points="0,20 40,40 40,80 0,60" fill="#059669" />
+      <polygon points="80,20 40,40 40,80 80,60" fill="#047857" />
+    </g>
+
+    <!-- Container 3 -->
+    <g transform="translate(240, 110)">
+      <polygon points="40,0 80,20 40,40 0,20" fill="#818CF8" />
+      <polygon points="0,20 40,40 40,80 0,60" fill="#4F46E5" />
+      <polygon points="80,20 40,40 40,80 80,60" fill="#3730A3" />
+    </g>
+
+    <!-- CI/CD Connecting Pipe Pipeline -->
+    <path d="M 20 180 L 100 180 L 190 200 L 280 170 L 360 170" fill="none" stroke="#10B981" stroke-width="3" stroke-dasharray="8,5" />
+    <circle cx="20" cy="180" r="7" fill="#10B981" />
+    <circle cx="100" cy="180" r="7" fill="#10B981" />
+    <circle cx="190" cy="200" r="7" fill="#10B981" />
+    <circle cx="280" cy="170" r="7" fill="#10B981" />
+    <circle cx="360" cy="170" r="7" fill="#10B981" />
+  </g>
+
+  <!-- Badges -->
+  <rect x="70" y="55" width="160" height="38" rx="19" fill="#1E293B" stroke="#0284C7" stroke-width="1.5" opacity="0.9"/>
+  <text x="150" y="79" fill="#E2E8F0" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" text-anchor="middle">🐳 DOCKER &amp; K8S</text>
+
+  <rect x="570" y="55" width="160" height="38" rx="19" fill="#1E293B" stroke="#10B981" stroke-width="1.5" opacity="0.9"/>
+  <text x="650" y="79" fill="#E2E8F0" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" text-anchor="middle">🚀 CI/CD PIPELINE</text>
+
+  <!-- Title Bottom Ribbon -->
+  <rect x="40" y="340" width="720" height="75" rx="18" fill="#0F172A" fill-opacity="0.9" stroke="#334155" stroke-width="1.5"/>
+  <text x="70" y="375" fill="#F8FAFC" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700">Cloud DevOps: Docker, Kubernetes &amp; CI/CD</text>
+  <text x="70" y="399" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500">Containerization • Cluster Orchestration • GitHub Actions • Infrastructure as Code</text>
+  <circle cx="715" cy="377" r="18" fill="#0284C7" fill-opacity="0.2"/>
+  <path d="M 710 371 L 722 377 L 710 383 Z" fill="#38BDF8"/>
+</svg>
+

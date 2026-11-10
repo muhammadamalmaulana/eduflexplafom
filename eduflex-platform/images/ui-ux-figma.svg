@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGradUx" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#180B26" />
+      <stop offset="50%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#2D124D" />
+    </linearGradient>
+    <linearGradient id="figmaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F24E1E" />
+      <stop offset="25%" stop-color="#FF7262" />
+      <stop offset="50%" stop-color="#A259FF" />
+      <stop offset="75%" stop-color="#1ABCFE" />
+      <stop offset="100%" stop-color="#0ACF83" />
+    </linearGradient>
+    <filter id="glowFigma" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+    <pattern id="uxDots" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="15" cy="15" r="1.5" fill="#64748B" fill-opacity="0.3"/>
+    </pattern>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="800" height="450" fill="url(#bgGradUx)" />
+  <rect width="800" height="450" fill="url(#uxDots)" />
+
+  <!-- Ambient Color Blooms -->
+  <circle cx="200" cy="160" r="160" fill="#F43F5E" opacity="0.12" filter="url(#glowFigma)" />
+  <circle cx="620" cy="220" r="170" fill="#A855F7" opacity="0.16" filter="url(#glowFigma)" />
+
+  <!-- Figma UI Canvas Wireframe / Glass Cards -->
+  <!-- Back Layer Card (Mobile mockup) -->
+  <rect x="180" y="90" width="180" height="230" rx="18" fill="#1E293B" stroke="#475569" stroke-width="2" opacity="0.6"/>
+  <rect x="200" y="115" width="140" height="18" rx="6" fill="#334155"/>
+  <rect x="200" y="145" width="90" height="12" rx="4" fill="#64748B"/>
+  <circle cx="230" cy="210" r="28" fill="#F43F5E" opacity="0.4"/>
+  <rect x="270" y="195" width="70" height="10" rx="4" fill="#94A3B8"/>
+  <rect x="270" y="215" width="50" height="8" rx="4" fill="#475569"/>
+
+  <!-- Front Layer Card (Desktop UI Bento Mockup) -->
+  <rect x="310" y="120" width="310" height="195" rx="20" fill="#0F172A" stroke="#8B5CF6" stroke-width="2.5" filter="url(#glowFigma)" />
+  
+  <!-- Window Header / Traffic Lights -->
+  <circle cx="335" cy="142" r="5" fill="#EF4444" />
+  <circle cx="350" cy="142" r="5" fill="#F59E0B" />
+  <circle cx="365" cy="142" r="5" fill="#10B981" />
+  <rect x="400" y="137" width="120" height="10" rx="5" fill="#1E293B" />
+
+  <!-- Card Content Bento Elements -->
+  <rect x="330" y="165" width="130" height="65" rx="12" fill="#1E293B" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="355" cy="195" r="15" fill="#06B6D4" opacity="0.4"/>
+  <rect x="380" y="185" width="60" height="8" rx="4" fill="#38BDF8"/>
+  <rect x="380" y="200" width="40" height="6" rx="3" fill="#64748B"/>
+
+  <rect x="475" y="165" width="125" height="65" rx="12" fill="#1E293B" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="500" cy="195" r="15" fill="#10B981" opacity="0.4"/>
+  <rect x="525" y="185" width="55" height="8" rx="4" fill="#34D399"/>
+  <rect x="525" y="200" width="35" height="6" rx="3" fill="#64748B"/>
+
+  <!-- Interactive Button in Mockup -->
+  <rect x="330" y="245" width="270" height="50" rx="14" fill="url(#figmaGrad)"/>
+  <text x="465" y="276" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" text-anchor="middle">Explore Design Tokens ✦</text>
+
+  <!-- Vector Pen Tool Illustration Floating Over -->
+  <g transform="translate(250, 160) rotate(-25)">
+    <path d="M 0 0 L 25 65 L 12 60 L 6 75 L -4 75 L 0 60 L -12 65 Z" fill="#F8FAFC" stroke="#0F172A" stroke-width="2" filter="url(#glowFigma)" />
+    <circle cx="6" cy="25" r="3.5" fill="#06B6D4"/>
+  </g>
+
+  <!-- Vector Curve Guides with Anchors -->
+  <path d="M 120 280 C 180 200, 240 330, 320 270" fill="none" stroke="#F43F5E" stroke-width="2" stroke-dasharray="6,4"/>
+  <rect x="175" y="235" width="8" height="8" fill="#F43F5E" stroke="#FFF" stroke-width="1.5"/>
+  <rect x="235" y="285" width="8" height="8" fill="#F43F5E" stroke="#FFF" stroke-width="1.5"/>
+
+  <!-- Top Badges -->
+  <rect x="70" y="55" width="160" height="38" rx="19" fill="#1E293B" stroke="#F43F5E" stroke-width="1.5" opacity="0.9"/>
+  <text x="150" y="79" fill="#E2E8F0" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" text-anchor="middle">🎨 FIGMA 2026</text>
+
+  <rect x="570" y="55" width="160" height="38" rx="19" fill="#1E293B" stroke="#10B981" stroke-width="1.5" opacity="0.9"/>
+  <text x="650" y="79" fill="#E2E8F0" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="600" text-anchor="middle">✨ AUTO LAYOUT</text>
+
+  <!-- Title Bottom Ribbon -->
+  <rect x="40" y="340" width="720" height="75" rx="18" fill="#0F172A" fill-opacity="0.9" stroke="#334155" stroke-width="1.5"/>
+  <text x="70" y="375" fill="#F8FAFC" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="700">UI/UX Design &amp; Product Strategy with Figma</text>
+  <text x="70" y="399" fill="#94A3B8" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="500">Design Systems • Component Variants • Auto Layout V5 • User Research</text>
+  <circle cx="715" cy="377" r="18" fill="#F43F5E" fill-opacity="0.2"/>
+  <path d="M 710 371 L 722 377 L 710 383 Z" fill="#FB7185"/>
+</svg>
+

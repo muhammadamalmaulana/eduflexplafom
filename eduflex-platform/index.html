@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduFlex Pro — Next-Gen E-Learning Platform</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 & Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- EduFlex Premium Style -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js & Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar navbar-expand-lg eduflex-navbar py-2 px-3 px-lg-4">
+    <div class="container-fluid gap-2">
+
+      <!-- Brand -->
+      <a class="navbar-brand d-flex align-items-center gap-2 text-decoration-none" href="#" onclick="switchView('catalog')">
+        <div class="brand-badge">
+          <i class="bi bi-cpu-fill text-white" style="font-size:1.2rem;"></i>
+        </div>
+        <span class="brand-title" style="color:var(--text-primary)">Edu<span class="brand-gradient-text">Flex Pro</span></span>
+      </a>
+
+      <!-- Mobile Toggle -->
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#eduflexNav" style="color:var(--text-primary);">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+
+      <!-- Nav Links -->
+      <div class="collapse navbar-collapse" id="eduflexNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-2 gap-1">
+
+          <!-- 8 Features Quick Launcher -->
+          <li class="nav-item dropdown">
+            <button class="btn btn-eduflex-primary btn-sm dropdown-toggle rounded-pill px-3 py-2" type="button" data-bs-toggle="dropdown">
+              <i class="bi bi-grid-3x3-gap-fill me-1"></i> 8 Fitur Utama
+            </button>
+            <ul class="dropdown-menu shadow-lg border-0 bento-card p-2 mt-1" style="min-width:300px; border-radius:var(--radius-md)!important;">
+              <li><h6 class="dropdown-header small fw-bold" style="color:var(--text-muted); letter-spacing:.06em;">FITUR APLIKASI</h6></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="openAuthModal('login')"><i class="bi bi-box-arrow-in-right text-primary me-2"></i>1. Login &amp; Register</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="switchView('student-dashboard')"><i class="bi bi-speedometer2 text-info me-2"></i>2. Dashboard Pengguna</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="switchView('catalog')"><i class="bi bi-compass text-primary me-2"></i>3. Katalog Materi</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="switchView('classroom')"><i class="bi bi-play-btn-fill text-success me-2"></i>4. Detail Pembelajaran</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="triggerDirectQuiz()"><i class="bi bi-lightning-charge-fill text-warning me-2"></i>5. Kuis Interaktif</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="switchView('progress')"><i class="bi bi-award-fill text-danger me-2"></i>6. Progress Belajar</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="setRole('admin'); switchView('admin-dashboard')"><i class="bi bi-graph-up-arrow text-warning me-2"></i>7. Dashboard Admin</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="setRole('admin'); switchView('admin-courses')"><i class="bi bi-folder-plus text-info me-2"></i>8. Kelola Materi</a></li>
+            </ul>
+          </li>
+
+          <li class="nav-item"><a class="nav-link nav-tab-btn active" id="tab-nav-catalog" href="#" onclick="switchView('catalog')"><i class="bi bi-compass me-1"></i>Katalog</a></li>
+          <li class="nav-item" id="nav-item-student-dash"><a class="nav-link nav-tab-btn" id="tab-nav-student-dashboard" href="#" onclick="switchView('student-dashboard')"><i class="bi bi-grid-1x2-fill me-1"></i>Dashboard</a></li>
+          <li class="nav-item" id="nav-item-progress"><a class="nav-link nav-tab-btn" id="tab-nav-progress" href="#" onclick="switchView('progress')"><i class="bi bi-award-fill me-1"></i>Progress</a></li>
+          <li class="nav-item d-none" id="nav-item-admin-dash"><a class="nav-link nav-tab-btn" id="tab-nav-admin-dashboard" href="#" onclick="switchView('admin-dashboard')" style="color:var(--amber)"><i class="bi bi-shield-check me-1"></i>Admin</a></li>
+          <li class="nav-item d-none" id="nav-item-admin-courses"><a class="nav-link nav-tab-btn" id="tab-nav-admin-courses" href="#" onclick="switchView('admin-courses')" style="color:var(--amber)"><i class="bi bi-folder-check me-1"></i>Studio</a></li>
+        </ul>
+
+        <!-- Right Controls -->
+        <div class="d-flex align-items-center gap-2">
+          <!-- Auth -->
+          <button class="btn btn-outline-eduflex btn-sm px-3" onclick="openAuthModal('login')">
+            <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+          </button>
+          <button class="btn btn-eduflex-primary btn-sm px-3" onclick="openAuthModal('register')">Daftar</button>
+
+          <!-- Theme Toggle -->
+          <button class="btn btn-outline-eduflex btn-sm px-2" onclick="toggleTheme()" title="Ganti Tema">
+            <i class="bi bi-moon-stars-fill" id="theme-toggle-icon"></i>
+          </button>
+
+          <!-- Role Switcher -->
+          <div class="dropdown">
+            <button class="btn btn-outline-eduflex btn-sm dropdown-toggle rounded-pill px-3" type="button" data-bs-toggle="dropdown">
+              <span id="navbar-role-pill" class="badge bg-primary">Siswa</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end bento-card border-0 shadow-lg p-2">
+              <li><h6 class="dropdown-header small" style="color:var(--text-muted)">Ganti Peran</h6></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="setRole('student')"><i class="bi bi-person-badge-fill text-primary me-2"></i>Siswa (Learner)</a></li>
+              <li><a class="dropdown-item rounded-3 py-2 small fw-semibold" href="#" onclick="setRole('admin')"><i class="bi bi-shield-lock-fill text-warning me-2"></i>Administrator</a></li>
+            </ul>
+          </div>
+
+          <!-- Profile -->
+          <div class="d-flex align-items-center gap-2 ps-2 border-start" style="border-color:var(--border-soft)!important;">
+            <img id="nav-avatar" src="images/avatar-student.svg" class="rounded-circle" style="width:36px;height:36px;border:2px solid var(--cyan);object-fit:cover;" alt="Avatar">
+            <div class="d-none d-md-block">
+              <div class="fw-bold small lh-1 mb-1" id="nav-user-name" style="font-size:.85rem;">Budi Santoso</div>
+              <div style="font-size:.7rem;color:var(--text-muted);" id="nav-user-email">siswa@eduflex.id</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="container-fluid px-3 px-lg-4 py-4">
+
+    <!-- ===================== SCREEN 1: KATALOG ===================== -->
+    <section id="screen-catalog" class="app-view-screen active">
+
+      <!-- Feature Quick Bar -->
+      <div class="feature-quick-bar mb-4">
+        <span style="font-size:.72rem;font-weight:700;letter-spacing:.07em;color:var(--text-muted);text-transform:uppercase;white-space:nowrap;">8 Fitur:</span>
+        <button class="feature-pill-btn fp-active" onclick="openAuthModal('login')"><i class="bi bi-box-arrow-in-right"></i> 1. Login</button>
+        <button class="feature-pill-btn" onclick="switchView('student-dashboard')"><i class="bi bi-speedometer2"></i> 2. Dashboard</button>
+        <button class="feature-pill-btn" onclick="switchView('catalog')"><i class="bi bi-compass"></i> 3. Katalog</button>
+        <button class="feature-pill-btn" onclick="switchView('classroom')"><i class="bi bi-play-btn-fill"></i> 4. Belajar</button>
+        <button class="feature-pill-btn" onclick="triggerDirectQuiz()"><i class="bi bi-lightning-charge-fill"></i> 5. Kuis</button>
+        <button class="feature-pill-btn" onclick="switchView('progress')"><i class="bi bi-award-fill"></i> 6. Progress</button>
+        <button class="feature-pill-btn" onclick="setRole('admin'); switchView('admin-dashboard')"><i class="bi bi-shield-check"></i> 7. Admin</button>
+        <button class="feature-pill-btn" onclick="setRole('admin'); switchView('admin-courses')"><i class="bi bi-folder-plus"></i> 8. Studio</button>
+      </div>
+
+      <!-- HERO BANNER -->
+      <div class="hero-bento-box p-4 p-md-5 mb-5 text-white">
+        <div class="hero-glow-sphere glow-pos-1"></div>
+        <div class="hero-glow-sphere glow-pos-2"></div>
+
+        <div class="row align-items-center g-4 position-relative" style="z-index:2">
+          <div class="col-lg-7 col-xl-6">
+            <!-- Live Badge -->
+            <div class="glass-pill floating-pill d-inline-flex align-items-center gap-2 mb-4">
+              <span class="live-dot"></span>
+              <span>Platform Pembelajaran Adaptif Berstandar Industri</span>
+            </div>
+
+            <h1 class="fw-black mb-3" style="font-size:clamp(2rem,4.5vw,3.2rem);line-height:1.1;letter-spacing:-0.04em;">
+              Kuasai Skill Masa<br>
+              Depan Bersama<br>
+              <span class="brand-gradient-text">EduFlex Pro</span>
+            </h1>
+            <p class="mb-4" style="color:rgba(255,255,255,0.72);font-size:1.05rem;line-height:1.65;max-width:460px;">
+              Platform e-learning generasi baru dengan kurikulum AI, Cloud, Web, dan UI/UX — dilengkapi kuis gamifikasi, sertifikat otomatis, dan pelacak progres real-time.
+            </p>
+
+            <div class="d-flex flex-wrap gap-2 mb-5">
+              <button onclick="openAuthModal('login')" class="btn btn-outline-eduflex" style="color:#fff;border-color:rgba(255,255,255,0.3);">
+                <i class="bi bi-box-arrow-in-right me-2"></i>1. Login / Daftar
+              </button>
+              <button onclick="switchView('student-dashboard')" class="btn btn-eduflex-primary">
+                <i class="bi bi-speedometer2 me-2"></i>2. Lihat Dashboard
+              </button>
+              <button onclick="triggerDirectQuiz()" class="btn-glow-cyan btn" style="border-radius:999px;font-weight:700;">
+                <i class="bi bi-lightning-charge-fill me-1"></i>Coba Kuis
+              </button>
+            </div>
+
+            <!-- Tech Badges Row -->
+            <div class="d-flex flex-wrap gap-2">
+              <span class="glass-pill floating-pill-2"><i class="bi bi-robot me-1"></i>AI & LLM</span>
+              <span class="glass-pill floating-pill-3"><i class="bi bi-cloud-fill me-1"></i>Kubernetes</span>
+              <span class="glass-pill floating-pill"><i class="bi bi-code-slash me-1"></i>Laravel 11</span>
+              <span class="glass-pill floating-pill-2"><i class="bi bi-palette-fill me-1"></i>Figma 2026</span>
+            </div>
+          </div>
+
+          <div class="col-lg-5 col-xl-6 d-none d-lg-block">
+            <div class="hero-stat-card">
+              <div class="text-center mb-4" style="color:rgba(255,255,255,0.5);font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;">Platform Analytics</div>
+              <div class="row g-3 text-center">
+                <div class="col-6">
+                  <div style="border-right:1px solid rgba(255,255,255,0.1); padding-right:16px;">
+                    <div class="fw-black" style="font-size:2.2rem;line-height:1;background:var(--grad-aurora);-webkit-background-clip:text;-webkit-text-fill-color:transparent;" id="hero-stat-courses">4+</div>
+                    <div style="color:rgba(255,255,255,0.55);font-size:.8rem;margin-top:4px;">Kursus Spesialisasi</div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div fw-black style="font-size:2.2rem;line-height:1;background:var(--grad-emerald);-webkit-background-clip:text;-webkit-text-fill-color:transparent;" id="hero-stat-students">1.8k</div>
+                  <div style="color:rgba(255,255,255,0.55);font-size:.8rem;margin-top:4px;">Siswa Aktif</div>
+                </div>
+              </div>
+              <hr style="border-color:rgba(255,255,255,0.1); margin:16px 0;">
+              <div class="row g-2 text-center">
+                <div class="col-4">
+                  <div style="font-size:1.4rem;font-weight:800;color:var(--amber);">320</div>
+                  <div style="color:rgba(255,255,255,0.45);font-size:.72rem;">Kuis Done</div>
+                </div>
+                <div class="col-4">
+                  <div style="font-size:1.4rem;font-weight:800;color:#F43F5E;">89%</div>
+                  <div style="color:rgba(255,255,255,0.45);font-size:.72rem;">Lulus Rate</div>
+                </div>
+                <div class="col-4">
+                  <div style="font-size:1.4rem;font-weight:800;color:var(--emerald);">4.9★</div>
+                  <div style="color:rgba(255,255,255,0.45);font-size:.72rem;">Rating</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILTER BAR -->
+      <div id="catalog-search-bar" class="filter-bar p-3 mb-5">
+        <div class="row g-3 align-items-center">
+          <div class="col-md-5">
+            <div class="input-group">
+              <span class="input-group-text bg-transparent border-end-0" style="border-color:var(--border-soft);color:var(--text-muted);">
+                <i class="bi bi-search"></i>
+              </span>
+              <input type="text" id="filter-search-input" class="form-control border-start-0 ps-0" placeholder="Cari kursus: AI, Laravel, React, Cloud, UI/UX...">
+            </div>
+          </div>
+          <div class="col-md-3 col-6">
+            <select id="filter-category-select" class="form-select">
+              <option value="all">Semua Kategori</option>
+              <option value="ai">🤖 Artificial Intelligence</option>
+              <option value="web">🌐 Fullstack Web</option>
+              <option value="cloud">☁️ Cloud &amp; DevOps</option>
+              <option value="uiux">🎨 UI/UX Design</option>
+            </select>
+          </div>
+          <div class="col-md-2 col-6">
+            <select id="filter-level-select" class="form-select">
+              <option value="all">Semua Level</option>
+              <option value="beginner">🟢 Pemula</option>
+              <option value="intermediate">🟡 Menengah</option>
+              <option value="advanced">🔴 Mahir</option>
+            </select>
+          </div>
+          <div class="col-md-2 text-end">
+            <span style="font-size:.8rem;color:var(--text-muted);">Ditemukan: <strong id="catalog-found-count" style="color:var(--cyan);">0</strong> kursus</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURSES GRID -->
+      <div class="row g-4" id="catalog-courses-grid">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- ===================== SCREEN 2: DASHBOARD SISWA ===================== -->
+    <section id="screen-student-dashboard" class="app-view-screen">
+
+      <!-- Feature Label -->
+      <div class="d-flex align-items-center gap-2 mb-4">
+        <span class="section-label" style="background:rgba(0,229,255,0.1);color:var(--cyan);border:1px solid rgba(0,229,255,0.25);">
+          <i class="bi bi-grid-1x2-fill"></i>Fitur 2: Dashboard Pengguna
+        </span>
+      </div>
+
+      <!-- Welcome + XP Row -->
+      <div class="row g-4 mb-4">
+        <!-- Welcome Card -->
+        <div class="col-lg-8">
+          <div class="bento-card p-4 p-md-5 h-100 position-relative overflow-hidden">
+            <!-- Decorative corner glow -->
+            <div style="position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle, rgba(0,229,255,0.12) 0%,transparent 65%);pointer-events:none;"></div>
+
+            <div class="d-flex align-items-center gap-2 mb-3">
+              <span class="badge rounded-pill px-3 py-2" style="background:rgba(0,229,255,0.12);color:var(--cyan);border:1px solid rgba(0,229,255,0.3);font-size:.75rem;font-weight:700;">
+                <i class="bi bi-check-circle-fill me-1"></i>Akun Terverifikasi
+              </span>
+            </div>
+            <h2 class="fw-black mb-2" style="letter-spacing:-0.04em;font-size:clamp(1.5rem,3vw,2.2rem);">
+              Halo, <span class="brand-gradient-text" id="dash-greeting-name">Budi</span>! 👋
+            </h2>
+            <p style="color:var(--text-secondary);max-width:460px;line-height:1.6;" class="mb-4">
+              Lanjutkan perjalanan belajarmu. Kamu sudah <strong>85% menuju Level 4</strong> — terus semangat!
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+              <button onclick="switchView('catalog')" class="btn btn-eduflex-primary">
+                <i class="bi bi-plus-circle me-1"></i>Tambah Kursus
+              </button>
+              <button onclick="switchView('progress')" class="btn btn-outline-eduflex">
+                <i class="bi bi-trophy-fill me-1" style="color:var(--amber);"></i>Lihat Sertifikat
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- XP Level Card -->
+        <div class="col-lg-4">
+          <div class="xp-card p-4 h-100 d-flex flex-column align-items-center justify-content-center text-center">
+            <div class="xp-ring mb-3">
+              <div class="xp-ring-inner">Lv.3</div>
+            </div>
+            <div class="fw-black" style="font-size:1.1rem;letter-spacing:-0.03em;margin-bottom:4px;">Level 3 — Explorer</div>
+            <div style="font-size:.8rem;color:var(--text-muted);margin-bottom:16px;">850 XP / 1000 XP</div>
+            <div class="progress-track-bar w-100 mb-2">
+              <div class="progress-track-fill" style="width:85%;"></div>
+            </div>
+            <div style="font-size:.75rem;color:var(--text-muted);">
+              <i class="bi bi-stars me-1" style="color:var(--amber);"></i>150 XP lagi untuk naik level!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Metric Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="metric-card mc-cyan">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span style="font-size:.78rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;">Kursus</span>
+              <div class="metric-icon-wrap" style="background:rgba(0,229,255,0.1);color:var(--cyan);"><i class="bi bi-collection-play-fill"></i></div>
+            </div>
+            <div class="fw-black" style="font-size:2rem;line-height:1;color:var(--cyan);" id="metric-enrolled-count">0</div>
+            <div style="font-size:.75rem;color:var(--text-muted);">Terdaftar</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="metric-card mc-emerald">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span style="font-size:.78rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;">Materi</span>
+              <div class="metric-icon-wrap" style="background:rgba(16,185,129,0.12);color:var(--emerald);"><i class="bi bi-check2-all"></i></div>
+            </div>
+            <div class="fw-black" style="font-size:2rem;line-height:1;color:var(--emerald);" id="metric-lessons-done">0</div>
+            <div style="font-size:.75rem;color:var(--text-muted);">Selesai</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="metric-card mc-amber">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span style="font-size:.78rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;">Kuis</span>
+              <div class="metric-icon-wrap" style="background:rgba(245,158,11,0.12);color:var(--amber);"><i class="bi bi-patch-check-fill"></i></div>
+            </div>
+            <div class="fw-black" style="font-size:2rem;line-height:1;color:var(--amber);" id="metric-quizzes-passed">0</div>
+            <div style="font-size:.75rem;color:var(--text-muted);">Lulus</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="metric-card mc-violet">
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <span style="font-size:.78rem;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;">Rata Skor</span>
+              <div class="metric-icon-wrap" style="background:rgba(139,92,246,0.12);color:var(--violet);"><i class="bi bi-graph-up-arrow"></i></div>
+            </div>
+            <div class="fw-black" style="font-size:2rem;line-height:1;color:var(--violet);" id="metric-avg-score">0%</div>
+            <div style="font-size:.75rem;color:var(--text-muted);">Nilai Kuis</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Resume Learning Banner -->
+      <div id="dash-resume-box" class="resume-banner p-4 mb-4">
+        <div class="row align-items-center g-3 position-relative" style="z-index:1;">
+          <div class="col-md-8">
+            <div class="d-flex align-items-center gap-2 mb-2">
+              <span class="badge rounded-pill px-3 py-2" style="background:rgba(0,229,255,0.15);color:var(--cyan);font-size:.72rem;font-weight:700;border:1px solid rgba(0,229,255,0.3);">
+                <i class="bi bi-play-circle-fill me-1"></i>Lanjutkan Belajar
+              </span>
+              <span style="font-size:.8rem;color:var(--text-muted);" id="resume-course-category">Kategori</span>
+            </div>
+            <h4 class="fw-black mb-1" style="letter-spacing:-0.03em;" id="resume-course-name">Nama Kursus</h4>
+            <p style="font-size:.88rem;color:var(--text-muted);margin-bottom:12px;" id="resume-lesson-name">Modul 1</p>
+            <div class="d-flex align-items-center gap-3">
+              <div class="progress-track-bar flex-grow-1" style="height:10px;">
+                <div id="resume-course-bar" class="progress-track-fill" style="width:30%;"></div>
+              </div>
+              <span class="fw-bold" style="font-size:.88rem;white-space:nowrap;" id="resume-percent-label">30%</span>
+            </div>
+          </div>
+          <div class="col-md-4 text-md-end">
+            <button id="btn-dash-resume" class="btn btn-eduflex-primary px-4 py-2">
+              <i class="bi bi-play-fill me-1"></i>Lanjutkan
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enrolled Courses -->
+      <div class="bento-card p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="fw-black mb-0" style="letter-spacing:-0.03em;">Kursus Saya</h5>
+          <button onclick="switchView('catalog')" class="btn btn-outline-eduflex btn-sm">
+            <i class="bi bi-plus me-1"></i>Tambah
+          </button>
+        </div>
+        <div class="row g-3" id="dash-enrolled-courses-grid">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SCREEN 3: CLASSROOM ===================== -->
+    <section id="screen-classroom" class="app-view-screen">
+      <div class="d-flex align-items-center gap-2 mb-3">
+        <span class="section-label" style="background:rgba(16,185,129,0.1);color:var(--emerald);border:1px solid rgba(16,185,129,0.25);">
+          <i class="bi bi-play-btn-fill"></i>Fitur 4: Detail Pembelajaran
+        </span>
+        <span style="font-size:.8rem;color:var(--text-muted);">Ruang belajar bebas distraksi</span>
+      </div>
+
+      <!-- Top Bar -->
+      <div class="bento-card p-3 mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+          <div class="d-flex align-items-center gap-3">
+            <button onclick="switchView('student-dashboard')" class="btn btn-outline-eduflex btn-sm">
+              <i class="bi bi-arrow-left me-1"></i>Dashboard
+            </button>
+            <div>
+              <h5 class="fw-black mb-0" style="font-size:.95rem;letter-spacing:-0.02em;" id="classroom-course-heading">Nama Kursus</h5>
+              <div style="font-size:.78rem;color:var(--text-muted);" id="classroom-module-heading">Modul 1</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-3">
+            <div class="d-none d-sm-block text-end">
+              <div style="font-size:.72rem;color:var(--text-muted);">Progress Kursus</div>
+              <span class="fw-bold" style="color:var(--emerald);font-size:.9rem;" id="classroom-progress-text">0%</span>
+            </div>
+            <div class="progress-track-bar" style="width:120px;height:8px;">
+              <div id="classroom-progress-fill" class="progress-track-fill" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <!-- Video + Content -->
+        <div class="col-lg-8">
+          <div class="bento-card overflow-hidden mb-4">
+            <div class="classroom-video-wrapper ratio ratio-16x9 bg-black">
+              <iframe id="classroom-video-player" src="" allowfullscreen class="w-100 h-100 border-0"></iframe>
+            </div>
+            <div class="p-4">
+              <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                <div class="d-flex gap-2">
+                  <span id="classroom-type-badge" class="badge rounded-pill px-3 py-2" style="background:rgba(59,130,246,0.12);color:var(--blue);font-size:.78rem;">Video Lesson</span>
+                  <span id="classroom-duration-badge" class="badge rounded-pill px-3 py-2 border" style="font-size:.78rem;color:var(--text-muted);border-color:var(--border-soft)!important;"><i class="bi bi-clock me-1"></i>15 Menit</span>
+                </div>
+                <div id="classroom-done-indicator" class="badge rounded-pill px-3 py-2 d-none" style="background:rgba(16,185,129,0.12);color:var(--emerald);font-size:.78rem;">
+                  <i class="bi bi-check2-circle me-1"></i>Selesai
+                </div>
+              </div>
+
+              <h3 class="fw-black mb-3" style="letter-spacing:-0.03em;font-size:1.3rem;" id="classroom-lesson-heading">Judul Materi</h3>
+              <div style="color:var(--text-secondary);line-height:1.75;font-size:.9rem;" id="classroom-lesson-article"></div>
+
+              <!-- Notepad -->
+              <div class="bento-card p-3 my-4" style="border-color:rgba(0,229,255,0.2);background:rgba(0,229,255,0.03);">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span style="font-size:.8rem;font-weight:700;color:var(--cyan);"><i class="bi bi-journal-code me-2"></i>Catatan Siswa <small style="font-weight:400;color:var(--text-muted);">(tersimpan otomatis)</small></span>
+                  <span id="notepad-save-status" style="font-size:.72rem;color:var(--text-muted);">Tersimpan</span>
+                </div>
+                <textarea id="classroom-student-notes" class="form-control student-notepad" rows="3" placeholder="Tuliskan poin penting materi ini..."></textarea>
+              </div>
+
+              <hr style="border-color:var(--border-soft);">
+              <div class="d-flex justify-content-between align-items-center pt-2">
+                <button id="btn-lesson-prev" class="btn btn-outline-eduflex btn-sm"><i class="bi bi-chevron-left me-1"></i>Sebelumnya</button>
+                <button id="btn-lesson-complete" class="btn btn-sm px-4 fw-bold rounded-pill" style="background:rgba(16,185,129,0.15);color:var(--emerald);border:1.5px solid rgba(16,185,129,0.4);">
+                  <i class="bi bi-check-circle-fill me-1"></i>Tandai Selesai
+                </button>
+                <button id="btn-lesson-next" class="btn btn-eduflex-primary btn-sm">Selanjutnya <i class="bi bi-chevron-right ms-1"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar Syllabus -->
+        <div class="col-lg-4">
+          <div class="bento-card p-3 sticky-top" style="top:80px;max-height:calc(100vh - 100px);overflow-y:auto;">
+            <div class="d-flex justify-content-between align-items-center mb-3 px-1">
+              <h6 class="fw-black mb-0" style="font-size:.9rem;letter-spacing:-0.02em;">Silabus Kursus</h6>
+              <span class="badge rounded-pill px-2 py-1" style="background:rgba(59,130,246,0.1);color:var(--blue);font-size:.72rem;" id="classroom-modules-count">0 Modul</span>
+            </div>
+            <div class="accordion accordion-flush" id="classroomAccordionList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SCREEN 4: KUIS ===================== -->
+    <section id="screen-quiz" class="app-view-screen">
+      <div class="container py-2" style="max-width:720px;">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="section-label" style="background:rgba(245,158,11,0.1);color:var(--amber);border:1px solid rgba(245,158,11,0.25);">
+            <i class="bi bi-lightning-charge-fill"></i>Fitur 5: Kuis Interaktif
+          </span>
+        </div>
+
+        <!-- Quiz Status Bar -->
+        <div class="quiz-status-bar p-3 p-md-4 mb-4">
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <div>
+              <div class="d-flex align-items-center gap-2 mb-1">
+                <span class="streak-badge" id="quiz-streak-badge">🔥 Streak 0</span>
+                <span style="font-size:.78rem;color:var(--text-muted);" id="quiz-passing-score-label">Passing: 75%</span>
+              </div>
+              <h4 class="fw-black mb-0" style="letter-spacing:-0.03em;font-size:1.1rem;" id="quiz-title-display">Evaluasi Modul</h4>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <div class="d-flex align-items-center gap-1" id="quiz-hearts-container">
+                <i class="bi bi-heart-fill heart-life" id="heart-1"></i>
+                <i class="bi bi-heart-fill heart-life" id="heart-2"></i>
+                <i class="bi bi-heart-fill heart-life" id="heart-3"></i>
+              </div>
+              <div class="rounded-pill px-3 py-2 fw-bold" style="background:rgba(244,63,94,0.1);color:#F43F5E;border:1.5px solid rgba(244,63,94,0.3);font-size:1rem;" id="quiz-timer-pill">
+                <i class="bi bi-stopwatch-fill me-1"></i><span id="quiz-timer-text">10:00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quiz Form -->
+        <div id="quiz-active-box">
+          <form id="quiz-interactive-form">
+            <div id="quiz-questions-render-box" class="d-flex flex-column gap-4"></div>
+            <div class="bento-card p-4 text-center my-4">
+              <p style="font-size:.85rem;color:var(--text-muted);" class="mb-3">Periksa kembali jawaban sebelum mengirim.</p>
+              <div class="d-flex justify-content-center gap-2">
+                <button type="button" onclick="exitQuiz()" class="btn btn-outline-eduflex px-4">Batal</button>
+                <button type="submit" class="btn btn-eduflex-primary px-5 fw-bold">
+                  <i class="bi bi-check2-circle me-1"></i>Kumpulkan Jawaban
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Quiz Result -->
+        <div id="quiz-result-view" class="bento-card p-4 p-md-5 text-center d-none mb-5">
+          <div class="mb-3" id="quiz-result-icon-box"><i class="bi bi-trophy-fill" style="font-size:3.5rem;color:var(--amber);"></i></div>
+          <h2 class="fw-black mb-2" style="letter-spacing:-0.04em;" id="quiz-result-header">Hasil Kuis</h2>
+          <p style="color:var(--text-secondary);" class="mb-4" id="quiz-result-subtitle">Kuis selesai dihitung.</p>
+
+          <div class="d-inline-flex align-items-center gap-5 p-4 rounded-3 mb-4" style="background:var(--bg-elevated);border:1px solid var(--border-soft);">
+            <div>
+              <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:4px;">Skor Akhir</div>
+              <span style="font-size:2.5rem;font-weight:900;color:var(--cyan);" id="quiz-score-number">100</span><span style="color:var(--text-muted);">/100</span>
+            </div>
+            <div class="border-start ps-5" style="border-color:var(--border-soft)!important;">
+              <div style="font-size:.78rem;color:var(--text-muted);margin-bottom:4px;">Status</div>
+              <span class="badge fs-6 px-3 py-2 rounded-pill" id="quiz-pass-badge" style="background:rgba(16,185,129,0.15);color:var(--emerald);border:1px solid rgba(16,185,129,0.3);">LULUS</span>
+            </div>
+          </div>
+
+          <div class="text-start mb-4">
+            <h5 class="fw-bold mb-3"><i class="bi bi-card-checklist me-2" style="color:var(--cyan);"></i>Pembahasan:</h5>
+            <div id="quiz-review-cards-list" class="d-flex flex-column gap-3"></div>
+          </div>
+
+          <div class="d-flex justify-content-center gap-2">
+            <button onclick="retakeActiveQuiz()" class="btn btn-outline-eduflex px-4"><i class="bi bi-arrow-repeat me-1"></i>Ulangi</button>
+            <button onclick="switchView('classroom')" class="btn btn-eduflex-primary px-4"><i class="bi bi-arrow-left me-1"></i>Kembali</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SCREEN 5: PROGRESS ===================== -->
+    <section id="screen-progress" class="app-view-screen">
+      <div class="d-flex align-items-center gap-2 mb-4">
+        <span class="section-label" style="background:rgba(244,63,94,0.1);color:#F43F5E;border:1px solid rgba(244,63,94,0.25);">
+          <i class="bi bi-award-fill"></i>Fitur 6: Progress Belajar
+        </span>
+      </div>
+
+      <div class="bento-card p-4 p-md-5 mb-4 position-relative overflow-hidden">
+        <div style="position:absolute;right:-40px;bottom:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(244,63,94,0.1) 0%,transparent 65%);pointer-events:none;"></div>
+        <div class="row align-items-center">
+          <div class="col-md-8">
+            <span class="section-label mb-2" style="background:rgba(16,185,129,0.1);color:var(--emerald);border:1px solid rgba(16,185,129,0.25);">Transkrip Pembelajaran</span>
+            <h3 class="fw-black mb-2" style="letter-spacing:-0.04em;">Pencapaian &amp; Riwayat Ujian</h3>
+            <p style="color:var(--text-secondary);font-size:.9rem;">Lacak persentase materi selesai, nilai kuis, dan unduh sertifikat berverifikasi resmi.</p>
+          </div>
+          <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <div class="d-inline-block p-3 bento-card text-center">
+              <div style="font-size:.72rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Rata-rata Lulus</div>
+              <div class="fw-black" style="font-size:2.2rem;color:var(--emerald);letter-spacing:-0.04em;" id="progress-global-avg">0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-lg-7">
+          <div class="bento-card p-4 mb-4">
+            <h5 class="fw-black mb-4" style="font-size:.95rem;letter-spacing:-0.02em;"><i class="bi bi-bar-chart-fill me-2" style="color:var(--cyan);"></i>Progress per Kursus</h5>
+            <div id="progress-course-cards-container" class="d-flex flex-column gap-3"></div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="bento-card p-4 mb-4">
+            <h5 class="fw-black mb-4" style="font-size:.95rem;letter-spacing:-0.02em;"><i class="bi bi-clock-history me-2" style="color:var(--amber);"></i>Log Hasil Kuis</h5>
+            <div class="table-responsive">
+              <table class="table align-middle" style="font-size:.85rem;">
+                <thead><tr style="color:var(--text-muted);border-bottom:1px solid var(--border-soft);">
+                  <th style="padding:8px 4px;font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;">Kuis</th>
+                  <th style="padding:8px 4px;font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;">Nilai</th>
+                  <th style="padding:8px 4px;font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;">Status</th>
+                </tr></thead>
+                <tbody id="progress-quiz-table-body"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SCREEN 6: ADMIN DASHBOARD ===================== -->
+    <section id="screen-admin-dashboard" class="app-view-screen">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+          <span class="section-label mb-2" style="background:rgba(245,158,11,0.1);color:var(--amber);border:1px solid rgba(245,158,11,0.25);">
+            <i class="bi bi-shield-check"></i>Fitur 7: Dashboard Admin
+          </span>
+          <h3 class="fw-black mb-0" style="letter-spacing:-0.04em;">Platform Analytics</h3>
+          <p style="font-size:.88rem;color:var(--text-secondary);">Pantau pertumbuhan siswa, tren evaluasi, dan aktivitas kursus real-time.</p>
+        </div>
+        <button onclick="switchView('admin-courses')" class="btn btn-eduflex-primary">
+          <i class="bi bi-folder-plus me-1"></i>Studio Materi
+        </button>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-xl-3">
+          <div class="kpi-card kpi-cyan">
+            <div class="kpi-icon" style="background:rgba(0,229,255,0.12);color:var(--cyan);"><i class="bi bi-people-fill"></i></div>
+            <div class="fw-black" style="font-size:1.9rem;letter-spacing:-0.04em;line-height:1;" id="admin-kpi-students">1,840</div>
+            <div style="font-size:.78rem;color:var(--text-muted);margin-top:2px;">Total Siswa</div>
+            <div class="mt-2" style="font-size:.78rem;color:var(--emerald);font-weight:700;"><i class="bi bi-arrow-up-right"></i> +14% bulan ini</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="kpi-card kpi-green">
+            <div class="kpi-icon" style="background:rgba(16,185,129,0.12);color:var(--emerald);"><i class="bi bi-collection-play-fill"></i></div>
+            <div class="fw-black" style="font-size:1.9rem;letter-spacing:-0.04em;line-height:1;" id="admin-kpi-courses">0</div>
+            <div style="font-size:.78rem;color:var(--text-muted);margin-top:2px;">Kursus Aktif</div>
+            <div class="mt-2" style="font-size:.78rem;color:var(--text-muted);font-weight:600;">dalam 4 kategori</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="kpi-card kpi-amber">
+            <div class="kpi-icon" style="background:rgba(245,158,11,0.12);color:var(--amber);"><i class="bi bi-play-circle-fill"></i></div>
+            <div class="fw-black" style="font-size:1.9rem;letter-spacing:-0.04em;line-height:1;" id="admin-kpi-lessons">0</div>
+            <div style="font-size:.78rem;color:var(--text-muted);margin-top:2px;">Total Lesson</div>
+            <div class="mt-2" style="font-size:.78rem;color:var(--text-muted);font-weight:600;">Video &amp; Artikel</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="kpi-card kpi-violet">
+            <div class="kpi-icon" style="background:rgba(139,92,246,0.12);color:var(--violet);"><i class="bi bi-patch-question-fill"></i></div>
+            <div class="fw-black" style="font-size:1.9rem;letter-spacing:-0.04em;line-height:1;" id="admin-kpi-quizzes">320</div>
+            <div style="font-size:.78rem;color:var(--text-muted);margin-top:2px;">Total Kuis</div>
+            <div class="mt-2" style="font-size:.78rem;color:var(--emerald);font-weight:700;"><i class="bi bi-graph-up-arrow"></i> 89% Lulus</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart + Activity Feed -->
+      <div class="row g-4 mb-4">
+        <div class="col-lg-8">
+          <div class="chart-container">
+            <h5 class="fw-black mb-4" style="font-size:.95rem;letter-spacing:-0.02em;"><i class="bi bi-graph-up-arrow me-2" style="color:var(--cyan);"></i>Tren Pendaftaran &amp; Kelulusan Bulanan</h5>
+            <div style="height:280px;">
+              <canvas id="adminPerformanceChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="bento-card p-4 h-100">
+            <h5 class="fw-black mb-4" style="font-size:.95rem;letter-spacing:-0.02em;"><i class="bi bi-activity me-2" style="color:var(--amber);"></i>Aktivitas Terbaru</h5>
+            <div class="d-flex flex-column gap-3" id="admin-activity-feed">
+              <div class="d-flex align-items-start gap-3">
+                <span class="badge rounded-circle p-2" style="background:rgba(16,185,129,0.15);color:var(--emerald);flex-shrink:0;"><i class="bi bi-check2"></i></span>
+                <div style="font-size:.82rem;">
+                  <strong>Farhan Ramadhan</strong> menyelesaikan <em>FastAPI Microservices</em>.
+                  <div style="color:var(--text-muted);font-size:.72rem;margin-top:2px;">12 menit lalu</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-start gap-3">
+                <span class="badge rounded-circle p-2" style="background:rgba(245,158,11,0.15);color:var(--amber);flex-shrink:0;"><i class="bi bi-trophy-fill"></i></span>
+                <div style="font-size:.82rem;">
+                  <strong>Anisa Putri</strong> lulus kuis <em>Machine Learning</em> nilai 95.
+                  <div style="color:var(--text-muted);font-size:.72rem;margin-top:2px;">40 menit lalu</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-start gap-3">
+                <span class="badge rounded-circle p-2" style="background:rgba(59,130,246,0.15);color:var(--blue);flex-shrink:0;"><i class="bi bi-person-plus-fill"></i></span>
+                <div style="font-size:.82rem;">
+                  <strong>Bayu Pratama</strong> mendaftar ke <em>Cloud DevOps Kubernetes</em>.
+                  <div style="color:var(--text-muted);font-size:.72rem;margin-top:2px;">1 jam lalu</div>
+                </div>
+              </div>
+              <div class="d-flex align-items-start gap-3">
+                <span class="badge rounded-circle p-2" style="background:rgba(236,72,153,0.15);color:var(--pink);flex-shrink:0;"><i class="bi bi-star-fill"></i></span>
+                <div style="font-size:.82rem;">
+                  <strong>Maya Sari</strong> memberi rating ⭐⭐⭐⭐⭐ pada <em>UI/UX Figma 2026</em>.
+                  <div style="color:var(--text-muted);font-size:.72rem;margin-top:2px;">2 jam lalu</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SCREEN 7: ADMIN STUDIO MATERI ===================== -->
+    <section id="screen-admin-courses" class="app-view-screen">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
+        <div>
+          <span class="section-label mb-2" style="background:rgba(0,229,255,0.1);color:var(--cyan);border:1px solid rgba(0,229,255,0.25);">
+            <i class="bi bi-folder-check"></i>Fitur 8: Kelola Materi
+          </span>
+          <div class="d-flex align-items-center gap-2">
+            <button onclick="switchView('admin-dashboard')" class="btn btn-outline-eduflex btn-sm"><i class="bi bi-arrow-left"></i></button>
+            <h3 class="fw-black mb-0" style="letter-spacing:-0.04em;">Studio Materi</h3>
+          </div>
+          <p style="font-size:.85rem;color:var(--text-secondary);margin-left:48px;">Kelola kursus, silabus modul, dan kuis evaluasi.</p>
+        </div>
+        <button class="btn btn-eduflex-primary" onclick="openNewCourseModal()">
+          <i class="bi bi-plus-lg me-1"></i>Buat Kursus Baru
+        </button>
+      </div>
+
+      <div class="admin-table-wrapper">
+        <div class="table-responsive">
+          <table class="table align-middle mb-0">
+            <thead>
+              <tr>
+                <th>Kursus</th>
+                <th>Kategori</th>
+                <th>Level</th>
+                <th>Konten</th>
+                <th>Status</th>
+                <th class="text-end pe-4">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="admin-courses-table-rows">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===== MODALS ===== -->
+
+  <!-- Certificate Modal -->
+  <div class="modal fade" id="modal-live-certificate" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content bento-card border-0 p-3">
+        <div class="modal-header border-0 pb-0">
+          <div>
+            <h5 class="modal-title fw-black" style="letter-spacing:-0.03em;">Sertifikat Kelulusan</h5>
+            <small style="color:var(--text-muted);">Digenerate langsung via HTML5 Canvas resolusi tinggi.</small>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center p-3">
+          <div class="canvas-certificate-container mx-auto mb-3">
+            <canvas id="certificateCanvas" width="960" height="600" class="img-fluid rounded-3"></canvas>
+          </div>
+          <div class="d-flex justify-content-center gap-2">
+            <button onclick="downloadCertificatePNG()" class="btn btn-eduflex-primary"><i class="bi bi-download me-1"></i>Unduh PNG</button>
+            <button onclick="window.print()" class="btn btn-outline-eduflex"><i class="bi bi-printer me-1"></i>Cetak</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Course Editor Modal -->
+  <div class="modal fade" id="modal-course-editor" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bento-card border-0">
+        <div class="modal-header pb-3" style="border-bottom:1px solid var(--border-soft);">
+          <h5 class="modal-title fw-black" style="letter-spacing:-0.03em;" id="course-modal-title">Buat Kursus Baru</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <form id="form-course-editor" onsubmit="saveCourseForm(event)">
+          <input type="hidden" id="course-form-id">
+          <div class="modal-body p-4">
+            <div class="row g-3">
+              <div class="col-12">
+                <label class="form-label">Judul Kursus</label>
+                <input type="text" id="course-input-title" class="form-control" placeholder="Contoh: Modern AI Engineering with Python" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Kategori</label>
+                <select id="course-input-category" class="form-select">
+                  <option value="ai">🤖 Artificial Intelligence</option>
+                  <option value="web">🌐 Fullstack Web Development</option>
+                  <option value="cloud">☁️ Cloud &amp; DevOps</option>
+                  <option value="uiux">🎨 UI/UX Design</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Tingkat Kesulitan</label>
+                <select id="course-input-level" class="form-select">
+                  <option value="beginner">🟢 Pemula</option>
+                  <option value="intermediate">🟡 Menengah</option>
+                  <option value="advanced">🔴 Mahir</option>
+                </select>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Gambar Thumbnail <small style="color:var(--text-muted);">(path lokal atau URL)</small></label>
+                <input type="text" id="course-input-thumbnail" class="form-control" placeholder="images/ai-engineering.svg atau URL gambar..." required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Deskripsi Kursus</label>
+                <textarea id="course-input-desc" class="form-control" rows="3" placeholder="Uraikan materi dan kompetensi yang akan dicapai siswa..." required></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-outline-eduflex" data-bs-dismiss="modal">Batal</button>
+            <button type="submit" class="btn btn-eduflex-primary">Simpan Kursus</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div class="modal fade" id="modal-auth-portal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content bento-card border-0 p-3 shadow-xl">
+        <div class="modal-header border-0 pb-0">
+          <ul class="nav nav-pills w-100 justify-content-center gap-2" id="authPortalTabs">
+            <li class="nav-item flex-fill text-center">
+              <button class="nav-link nav-tab-btn active w-100" id="btn-tab-login" data-bs-toggle="pill" data-bs-target="#panel-login" type="button">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Masuk
+              </button>
+            </li>
+            <li class="nav-item flex-fill text-center">
+              <button class="nav-link nav-tab-btn w-100" id="btn-tab-register" data-bs-toggle="pill" data-bs-target="#panel-register" type="button">
+                <i class="bi bi-person-plus-fill me-1"></i>Daftar
+              </button>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-body p-3 pt-4">
+          <div class="tab-content" id="authPortalContent">
+            <!-- Login -->
+            <div class="tab-pane fade show active" id="panel-login">
+              <form id="form-auth-login" onsubmit="handlePortalLogin(event)">
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input type="email" id="login-portal-email" class="form-control" placeholder="nama@email.com" required value="siswa@eduflex.id">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Password</label>
+                  <input type="password" id="login-portal-pass" class="form-control" placeholder="••••••••" required value="password123">
+                </div>
+                <div class="d-flex justify-content-between align-items-center mb-3 small">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberAuth" checked>
+                    <label class="form-check-label" style="color:var(--text-muted);" for="rememberAuth">Ingat sesi</label>
+                  </div>
+                  <a href="#" style="color:var(--cyan);text-decoration:none;font-size:.82rem;">Lupa sandi?</a>
+                </div>
+                <button type="submit" class="btn btn-eduflex-primary w-100 py-2 mb-3"><i class="bi bi-unlock-fill me-1"></i>Masuk ke EduFlex</button>
+                <div class="p-3 bento-card text-center" style="font-size:.8rem;">
+                  <span style="color:var(--text-muted);">Akses Demo:</span><br>
+                  <button type="button" onclick="quickAuthDemo('student')" class="badge bg-primary text-white border-0 mt-1 me-1 py-2 px-3" style="cursor:pointer;">Siswa Demo</button>
+                  <button type="button" onclick="quickAuthDemo('admin')" class="badge text-dark border-0 mt-1 py-2 px-3" style="background:var(--amber);cursor:pointer;">Admin Demo</button>
+                </div>
+              </form>
+            </div>
+            <!-- Register -->
+            <div class="tab-pane fade" id="panel-register">
+              <form id="form-auth-register" onsubmit="handlePortalRegister(event)">
+                <div class="mb-3">
+                  <label class="form-label">Nama Lengkap</label>
+                  <input type="text" id="reg-portal-name" class="form-control" placeholder="Nama Anda" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input type="email" id="reg-portal-email" class="form-control" placeholder="nama@email.com" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Password</label>
+                  <input type="password" id="reg-portal-pass" class="form-control" placeholder="Min. 8 karakter" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Peran Akun</label>
+                  <select id="reg-portal-role" class="form-select">
+                    <option value="student">Siswa (Learner)</option>
+                    <option value="admin">Administrator (Pengajar)</option>
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-eduflex-primary w-100 py-2"><i class="bi bi-person-check-fill me-1"></i>Buat Akun</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Syllabus Preview Modal -->
+  <div class="modal fade" id="modal-syllabus-preview" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bento-card border-0 p-3">
+        <div class="modal-header pb-3" style="border-bottom:1px solid var(--border-soft);">
+          <div>
+            <span class="badge rounded-pill mb-1 px-3 py-1" style="background:rgba(59,130,246,0.1);color:var(--blue);font-size:.72rem;font-weight:700;" id="preview-modal-cat">Kategori</span>
+            <h5 class="modal-title fw-black" style="letter-spacing:-0.03em;" id="preview-modal-title">Judul Kursus</h5>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row g-4">
+            <div class="col-md-5">
+              <img id="preview-modal-thumb" src="" class="img-fluid rounded-4 shadow mb-3 w-100" alt="Thumbnail" onerror="this.src='images/ai-engineering.svg'" style="border:1px solid var(--border-soft);">
+              <div class="p-3 bento-card" style="font-size:.82rem;gap:8px;display:flex;flex-direction:column;">
+                <div style="color:var(--text-muted);"><i class="bi bi-person-circle me-2" style="color:var(--cyan);"></i>Instruktur: <strong style="color:var(--text-primary);" id="preview-modal-instructor">-</strong></div>
+                <div style="color:var(--text-muted);"><i class="bi bi-star-fill me-2" style="color:var(--amber);"></i>Rating: <strong style="color:var(--amber);" id="preview-modal-rating">4.9</strong></div>
+                <div style="color:var(--text-muted);"><i class="bi bi-bar-chart me-2" style="color:var(--emerald);"></i>Level: <strong style="color:var(--text-primary);" id="preview-modal-level">Menengah</strong></div>
+              </div>
+            </div>
+            <div class="col-md-7">
+              <h6 class="fw-bold mb-2" style="font-size:.88rem;">Tentang Kursus</h6>
+              <p style="font-size:.85rem;color:var(--text-secondary);line-height:1.65;" id="preview-modal-desc"></p>
+              <h6 class="fw-bold mt-4 mb-2" style="font-size:.88rem;"><i class="bi bi-list-nested me-1" style="color:var(--cyan);"></i>Kurikulum Modul</h6>
+              <div id="preview-modal-curriculum" class="d-flex flex-column gap-2" style="font-size:.82rem;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-outline-eduflex" data-bs-dismiss="modal">Tutup</button>
+          <button type="button" id="btn-preview-enroll" class="btn btn-eduflex-primary">Daftar &amp; Mulai Belajar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index:9999;">
+    <div id="eduflexToast" class="toast align-items-center text-white border-0 rounded-3 shadow-lg" role="alert">
+      <div class="d-flex">
+        <div class="toast-body fw-semibold" id="eduflexToastText">Pemberitahuan!</div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
